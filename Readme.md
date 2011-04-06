@@ -100,6 +100,32 @@ Likewise we also have `client.deleteFile()` as a more concise (yet less flexible
     client.deleteFile('/test/Readme.md', function(err, res){
       // Logic
     });
+    
+### Stream Multipart
+
+The streamMultipart method allows users to upload files to a path in s3 (this does not include the specified bucket) as a multipart operation using Node-formidable to parse the upload form, where 'request' is the form post request.
+
+    client.streamMultipart(request, "path/in/s3");
+    
+### Get Multipart Uploads
+
+The getMultipartUploads method with return an array of all uploads currently in progress to the designated call back function.
+
+    client.getMultipartUploads(function(uploads) {
+      ...do something with the uploads
+    });
+    
+### Abort Uploads
+
+The abortMultipart method aborts the specified upload given the key (the path of the file, not including the bucket) and the upload Id of the specified upload. Below we abort all existing uploads if there are any uploads to abort.
+
+    client.getMultipartUploads(function(uploads) {
+      if (uploads) {
+        for (var i = 0; i < uploads.length; i++) {
+          client.abortMultipart(uploads[i].UploadId, "/"+uploads[i].Key);
+        }
+      }
+    });
 
 ## Running Tests
 
