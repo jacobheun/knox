@@ -103,9 +103,16 @@ Likewise we also have `client.deleteFile()` as a more concise (yet less flexible
     
 ### Stream Multipart
 
-The streamMultipart method allows users to upload files to a path in s3 (this does not include the specified bucket) as a multipart operation using Node-formidable to parse the upload form, where 'request' is the form post request.
+The streamMultipart method allows users to upload files to a path in s3 (this does not include the specified bucket) as a multipart operation using Node-formidable to parse the upload form, where 'request' is the form post request. TODO: make file extension dynamic as it cannot be predicted.
 
-    client.streamMultipart(request, "path/in/s3");
+    //preferred
+    client.streamMultipart(request, "path/in/s3", function(response) {
+      ...check the response for success/failure
+    });
+    
+    client.streamMultipart(request, "path/in/s3", "myFile.ext", function(response) {
+      ...check the response for success/failure
+    });
     
 ### Get Multipart Uploads
 
