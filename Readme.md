@@ -103,16 +103,12 @@ Likewise we also have `client.deleteFile()` as a more concise (yet less flexible
     
 ### Stream Multipart
 
-The streamMultipart method allows users to upload files to a path in s3 (this does not include the specified bucket) as a multipart operation using Node-formidable to parse the upload form, where 'request' is the form post request. TODO: make file extension dynamic as it cannot be predicted.
+The streamMultipart method allows users to upload files to a path in s3 (this does not include the specified bucket) as a multipart operation using Node-formidable to parse the upload form, where 'request' is the form post request. Returns an event listener for the knox client. TODO: make file extension dynamic as it cannot be predicted.
 
     //preferred
-    client.streamMultipart(request, "path/in/s3", function(response) {
-      ...check the response for success/failure
-    });
+    var listener = client.streamMultipart(request, "path/in/s3");
     
-    client.streamMultipart(request, "path/in/s3", "myFile.ext", function(response) {
-      ...check the response for success/failure
-    });
+    var listener = client.streamMultipart(request, "path/in/s3", "myFile.ext");
     
 ### Get Multipart Uploads
 
@@ -146,6 +142,13 @@ a file named _./auth_, which contains your credentials as json, for example:
 Then simply execute:
 
     $ make test
+    
+## Events Emitted
+* formdata - (Multipart streaming)Emitted when a part of the Multipart form has been parsed
+* streaming - (Multipart streaming)Emitted once all parts are being streamed to s3
+* part - (Multipart streaming)Emitted for each part on the stream as it is written to s3
+* complete - (Multipart streaming)Emitted once the upload is complete and in s3
+* abort - (Multipart streaming)Emitted upon a successful abort
 
 ## License 
 
