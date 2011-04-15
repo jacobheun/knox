@@ -103,12 +103,12 @@ Likewise we also have `client.deleteFile()` as a more concise (yet less flexible
     
 ### Stream Multipart
 
-The streamMultipart method allows users to upload files to a path in s3 (this does not include the specified bucket) as a multipart operation using Node-formidable to parse the upload form, where 'request' is the form post request. Returns an event listener for the knox client. TODO: make file extension dynamic as it cannot be predicted.
+The streamMultipart method allows users to upload files to a path in s3 (this does not include the specified bucket) as a multipart operation using Node-formidable to parse the upload form, where 'request' is the form post request. Returns an event listener for the knox client. 
 
-    //preferred
     var listener = client.streamMultipart(request, "path/in/s3");
     
-    var listener = client.streamMultipart(request, "path/in/s3", "myFile.ext");
+    //include a new file name without an extension (the extension is added dynamically)
+    var listener = client.streamMultipart(request, "path/in/s3", "myNewFileName");
     
 ### Get Multipart Uploads
 
